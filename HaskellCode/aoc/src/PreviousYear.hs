@@ -20,7 +20,7 @@ module PreviousYear where
                                   where
                                     contentLines = lines contents
                                     numbers = map read contentLines
-                                    answer = fmap (\(x,y)->x*y) $ findNumbers numbers
+                                    answer = (\(x,y)->x*y) <$> findNumbers numbers
 
   findAnswerDay1 = do
     contents <- readFile "../data/2020_01/numbers"
