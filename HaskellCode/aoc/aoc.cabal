@@ -1,0 +1,58 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           aoc
+version:        4.20
+description:    Please see the README on GitHub at <https://github.com/githubuser/aoc#readme>
+homepage:       https://github.com/github.com/Gerryflap#readme
+bug-reports:    https://github.com/github.com/Gerryflap/issues
+author:         Gerben Meijer
+maintainer:     gerry2211@gmail.com
+copyright:      2021 Gerben Meijer
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/github.com/Gerryflap
+  subdir: advent_of_code_2021
+
+library
+  exposed-modules:
+      Preparation
+  other-modules:
+      Paths_aoc
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable aoc-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite aoc-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_aoc
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc
+    , base >=4.7 && <5
+  default-language: Haskell2010
