@@ -15,9 +15,14 @@ Running stuff:
 
 ## Julia
 - Install [Julia](https://julialang.org/) (duh)
+
+### Running main (will show all implemented answers)
+- Go to `JuliaCode/` in a terminal and run `julia src/main.jl`
+
+### Running from repl
 - Go to `JuliaCode/` in a terminal and run `julia`
 - Press `]` to go into the `pkg>` thingymabop
 - type `activate .`
 - Press escape to get out of the `pkg>` thingymabop
-- `import JuliaCode`
-- Run whatever you want, i.e. `JuliaCode.greet()`
+- `using JuliaCode`
+- Run whatever you want (as long as it's exported), i.e. `day1q1()`
