@@ -23,6 +23,7 @@ source-repository head
 
 library
   exposed-modules:
+      Day01
       Preparation
       PreviousYear
       Util

@@ -22,6 +22,6 @@ module PreviousYear where
                                     numbers = map read contentLines
                                     answer = (\(x,y)->x*y) <$> findNumbers numbers
 
-  findAnswerDay1 = do
+  findAnswerDay1_2020 = do
     contents <- readFile "../data/2020_01/numbers"
     putStrLn $ show $ computeAnswerFromFile contents
