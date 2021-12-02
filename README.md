@@ -26,3 +26,10 @@ Running stuff:
 - Press escape to get out of the `pkg>` thingymabop
 - `using JuliaCode`
 - Run whatever you want (as long as it's exported), i.e. `day1q1()`
+
+## Prolog
+- Install [SWI-Prolog](https://www.swi-prolog.org/)
+- Go to `PrologCode/` in a terminal and run `swipl day1.pl`
+- Type `X.` and have the big funny
+- Ask Prolog a question like `computeDay1Q2(Count).`, which means "What value of Count is the answer to Day 1 Question 2"
+- Prolog will grant you the answer (though it seems unsure whether that's the only answer)
