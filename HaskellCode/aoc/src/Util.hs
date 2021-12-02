@@ -21,7 +21,7 @@ module Util where
   --  computationFn: gets input type a and returns b
   --  parser: Parses the String of the input file to input type a
   --  file path
-  runOnFile :: (Read a, Show b) => (a -> b) -> (String -> a) -> String -> IO ()
+  runOnFile :: (Show b) => (a -> b) -> (String -> a) -> String -> IO ()
   runOnFile computationFn parser path = do
       contents <- readFile path
       putStrLn $ show $ computationFn $ parser contents

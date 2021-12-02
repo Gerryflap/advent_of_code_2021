@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JuliaProjectSettings">
-    <option name="basePath" value="$PROJECT_DIR$/JuliaCode" />
     <option name="exePath" value="/usr/bin/julia" />
-    <option name="importPath" value="$PROJECT_DIR$/JuliaCode" />
   </component>
 </project>
