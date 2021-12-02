@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HaskellCode/HaskellCode.iml" filepath="$PROJECT_DIR$/HaskellCode/HaskellCode.iml" />
       <module fileurl="file://$PROJECT_DIR$/JuliaCode/JuliaCode.iml" filepath="$PROJECT_DIR$/JuliaCode/JuliaCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PrologCode/PrologCode.iml" filepath="$PROJECT_DIR$/PrologCode/PrologCode.iml" />
     </modules>
   </component>
 </project>
