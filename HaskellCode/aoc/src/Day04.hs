@@ -11,12 +11,11 @@ type BingoCard = Vector ( Vector Int )
 type DrawnMap = Vector ( Vector Bool )
 type BoardState = (BingoCard, DrawnMap)
 
-banaan :: BingoCard
-banaan = fromList $ map fromList $ [[1,2,3], [3,4,5]]
-
+-- Checks row for bingo
 checkRow :: DrawnMap -> Int -> Bool
 checkRow drawn row = foldl1 (&&) $ drawn V.! row
 
+-- Checks column for bingo
 checkCol :: DrawnMap -> Int -> Bool
 checkCol drawn col = foldl (\eq row -> eq && (row V.! col)) True drawn
 
@@ -25,20 +24,16 @@ combineMaybe :: Maybe a -> Maybe a -> Maybe a
 combineMaybe Nothing x = x
 combineMaybe (Just x) _ = Just x
 
---setNumber :: BoardState -> Int -> (BoardState, Bool)
---setNumber boardstate drawn = (updatedBoard, modified)
---                           where
---                            (updatedBoardz, rowsModified) = V.unzip $ V.map (updateRow drawn) $ V.zip boardstate
---                            updatedBoard = V.unzip boardstate
---                            modified = foldl1 (&&) rowsModified
-
+-- Finds row and column for element, if it can be found. Otherwise returns Nothing
 findRowCol :: BingoCard -> Int -> Maybe (Int, Int)
 findRowCol bingoCard element = V.foldl1 combineMaybe $ V.imap (findInRow element) bingoCard
 
-
+-- Finds element in row. Given element (to find), current row number, and the row Vector
+-- Returns Just (row, col) or Nothing
 findInRow :: Int -> Int -> Vector Int -> Maybe (Int, Int)
 findInRow element rowNum row = (\col -> (rowNum, col)) <$> V.elemIndex element row
 
+-- Sets that element at (row, col) has been drawn
 setDrawn :: (Int, Int) -> DrawnMap -> DrawnMap
 setDrawn (row,col) drawnMap = update drawnMap $ fromList [(row, updatedRowValues)]
                                 where
@@ -56,7 +51,7 @@ step drawn boardstate   | updated = ((bingoCard, updatedDrawnMap), isBingo)
                             updatedDrawnMap = setDrawn (row, col) drawnMap
                             isBingo = (checkRow updatedDrawnMap row) || (checkCol updatedDrawnMap col)
 
-
+-- Makes a game step on all boards, returns updated boards and Maybe the board that has bingo
 stepAll :: [BoardState] -> Int -> ([BoardState], Maybe BoardState)
 stepAll boards drawn = (newBoards, bingo)
                         where
@@ -75,25 +70,31 @@ findBingo boards (drawn:nums)   | isBingo = (bingoBoard, drawn)
                                     isBingo = isJust maybeBingoBoard
                                     bingoBoard = fromJust maybeBingoBoard
 
+-- Computes the sum of numbers on the card that have not been drawn yet, times the drawn number
 computeResultFromBingo :: (BoardState, Int) -> Int
 computeResultFromBingo ((bingoBoard, drawnMap), drawn) = summed * drawn
                                                         where
                                                             summed = V.sum rowSums
                                                             rowSums = V.map rowSum $ V.zip bingoBoard drawnMap
+
+-- Computes the sum of undrawn numbers for a single row
 rowSum :: (Vector Int, Vector Bool) -> Int
 rowSum (bb, dm) = foldl addElem 0 $ V.zip bb dm
 
+-- Adds num to the carry if it hasn't been drawn yet, otherwise it returns the carry + 0
 addElem :: Int -> (Int, Bool) -> Int
 addElem carry (value, isDrawn)  | isDrawn = carry
                                 | otherwise = carry + value
 
-
+-- Generates a new DrawnMap with same dimensions as BingoCard and with only False as values
 newDrawnMap :: BingoCard -> DrawnMap
 newDrawnMap = V.map $ V.map (\ _ -> False)
 
+-- Parses the bingo file from a single String (all file contents)
 parseBingoFileString :: String -> ([Int], [BoardState])
 parseBingoFileString s = parseBingoFile $ lines s
 
+-- Parses bingo file from lines. First line as comma separated numbers, the rest as bingo cards
 parseBingoFile :: [String] -> ([Int], [BoardState])
 parseBingoFile ls = (numbers, boards)
                 where
@@ -101,6 +102,7 @@ parseBingoFile ls = (numbers, boards)
                     cards = parseCards $ tail ls
                     boards = zip cards (map newDrawnMap cards)
 
+-- Parses the remainder of the file as a list of lines (Strings) and returns a list of BingoCards
 parseCards :: [String] -> [BingoCard]
 parseCards [] = []
 parseCards [""] = []
@@ -110,6 +112,8 @@ parseCards l    | lcard /= [] = (card:(parseCards remainder))
                     (lcard, remainder) = parseCard l
                     card = fromList lcard
 
+-- Parses a single BingoCard and returns the card as a list of Vector Int, also returns the remaining lines
+-- May also return ([], []) in some cases to be edgy. It's just a phase, please ignore it.
 parseCard :: [String] -> ([Vector Int], [String])
 parseCard [] = ([], [])
 parseCard ("":lns) = ([], lns)
@@ -118,14 +122,16 @@ parseCard (ln:lns) = (row:rows, remainder)
                         row = fromList $ map read $ words ln
                         (rows, remainder) = parseCard lns
 
+-- Computes the answer to D4Q1 given the input numbers and boardstates
 computeD4Q1 :: ([Int], [BoardState]) -> Int
 computeD4Q1 (numbers, boardstates) = computeResultFromBingo bingo
                                     where
                                         bingo = findBingo boardstates numbers
 
+-- Computes the answer to D4Q1 by parsing the file and computing the result
 answerD4Q1 = runOnFile computeD4Q1 parseBingoFileString "../data/2021_04/data"
 
--- Returns remaining lists (that didn't win) and winning lists,
+-- Does a game step on all boards. Returns remaining lists (that didn't win) and winning lists,
 stepAllRetList :: [BoardState] -> Int -> ([BoardState], [BoardState])
 stepAllRetList boards drawn = (remainingBoards, bingos)
                         where
@@ -143,9 +149,11 @@ findLastBingo boards (drawn:nums)   | oneBoardRemaining = (head bingoBoards, dra
                                         (newBoards, bingoBoards) = stepAllRetList boards drawn
                                         oneBoardRemaining = (0 == length newBoards) && (1 == length bingoBoards)
 
+-- Computes D4Q2 for the input numbers and boards
 computeD4Q2 :: ([Int], [BoardState]) -> Int
 computeD4Q2 (numbers, boardstates) = computeResultFromBingo bingo
                                     where
                                         bingo = findLastBingo boardstates numbers
 
+-- Computes the answer to D4Q2 by parsing the file and computing the result
 answerD4Q2 = runOnFile computeD4Q2 parseBingoFileString "../data/2021_04/data"
