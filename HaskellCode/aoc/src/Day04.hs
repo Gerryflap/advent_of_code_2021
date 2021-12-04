@@ -18,7 +18,7 @@ checkRow :: DrawnMap -> Int -> Bool
 checkRow drawn row = foldl1 (&&) $ drawn V.! row
 
 checkCol :: DrawnMap -> Int -> Bool
-checkCol drawn col = foldl (\eq row -> eq && (row V.! col)) False drawn
+checkCol drawn col = foldl (\eq row -> eq && (row V.! col)) True drawn
 
 -- Combines Maybe type such that the first Just will be returned or Nothing when no Just is found
 combineMaybe :: Maybe a -> Maybe a -> Maybe a
@@ -124,3 +124,28 @@ computeD4Q1 (numbers, boardstates) = computeResultFromBingo bingo
                                         bingo = findBingo boardstates numbers
 
 answerD4Q1 = runOnFile computeD4Q1 parseBingoFileString "../data/2021_04/data"
+
+-- Returns remaining lists (that didn't win) and winning lists,
+stepAllRetList :: [BoardState] -> Int -> ([BoardState], [BoardState])
+stepAllRetList boards drawn = (remainingBoards, bingos)
+                        where
+                            stepResults = map (step drawn) boards
+                            bingos = map (\(board, _) -> board) $ filter (\(_,bool)->bool) stepResults
+                            remainingBoards = map (\(board, _) -> board) $ filter (\(_,bool)->not bool) stepResults
+
+
+--Finds the last board to have bingo
+findLastBingo :: [BoardState] -> [Int] -> (BoardState, Int)
+findLastBingo boards [] = error "Could not find a single last card before running out of numbers"
+findLastBingo boards (drawn:nums)   | oneBoardRemaining = (head bingoBoards, drawn)
+                                    | otherwise = findLastBingo newBoards nums
+                                     where
+                                        (newBoards, bingoBoards) = stepAllRetList boards drawn
+                                        oneBoardRemaining = (0 == length newBoards) && (1 == length bingoBoards)
+
+computeD4Q2 :: ([Int], [BoardState]) -> Int
+computeD4Q2 (numbers, boardstates) = computeResultFromBingo bingo
+                                    where
+                                        bingo = findLastBingo boardstates numbers
+
+answerD4Q2 = runOnFile computeD4Q2 parseBingoFileString "../data/2021_04/data"
