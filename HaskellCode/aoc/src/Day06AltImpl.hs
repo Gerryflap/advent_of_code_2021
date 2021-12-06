@@ -15,7 +15,7 @@ decreaseAndAddAlt v = V.modify (\mv -> applyForN 7 (modVec mv v)) $ V.replicate 
 -- Haskell gods forgive me for what I'm about to do
 -- Given Mutable vector newV, (immutable) copy oldV and index i, updates values for index i
 -- Wrap-around updates for ages 0 to ages 6 and 8 are performed at i == 0
-modVec :: PrimMonad m => MVector (PrimState m) Int -> Vector Int -> Int -> m ()
+modVec :: MV.MVector s Int -> Vector Int -> Int -> ST s ()
 modVec newV oldV i  | i /= 0 = MV.modify newV (+oldV V.! (i+1)) i
                     | otherwise = write1 >> write2 >> write3
                     where
