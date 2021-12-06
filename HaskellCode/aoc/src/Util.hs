@@ -35,3 +35,12 @@ newCountVal (Just x) = x + 1          -- Key in map, add 1 to counter
 getCountVal :: Maybe Int -> Int
 getCountVal Nothing = 0
 getCountVal (Just x) = x
+
+-- Applies the function for all i 0..N and returns nothing wrapped in the Monad
+applyForN :: Monad m => Int -> (Int -> m ()) -> m ()
+applyForN n fn = applyForList [0..n] fn
+
+-- Applies the function for all i 0..N and returns nothing wrapped in the Monad
+applyForList :: Monad m => [a] -> (a -> m ()) -> m ()
+applyForList [] fn = return ()
+applyForList (x:xs) fn = applyForList xs fn >> fn x
