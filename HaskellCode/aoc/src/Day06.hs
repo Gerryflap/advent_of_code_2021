@@ -44,11 +44,15 @@ simulateDaysEfficient :: Int -> LanternMap -> LanternMap
 simulateDaysEfficient 0 m = m
 simulateDaysEfficient n m = simulateDaysEfficient (n-1) $ decreaseAndAddEfficient m
 
+-- Fish operator (for doing fish things)
+infixl 1 🐟>
+(🐟>) = simulateDaysEfficient
+
 processD6Q2Input :: [Int] -> LanternMap -> LanternMap
 processD6Q2Input [] m = m
 processD6Q2Input (x:xs) m = processD6Q2Input xs $ M.insert x (newCountVal $ M.lookup x m) m
 
 computeD6Q2 :: [Int] -> Int
-computeD6Q2 l = sum $ map snd $ M.toList $ simulateDaysEfficient 256 $ processD6Q2Input l M.empty
+computeD6Q2 l = sum $ map snd $ M.toList $ 256 🐟> processD6Q2Input l M.empty
 
 answerD6Q2 = runOnFile computeD6Q2 parseDay6 "../data/2021_06/data"
