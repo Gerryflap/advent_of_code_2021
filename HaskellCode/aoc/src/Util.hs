@@ -1,4 +1,5 @@
 module Util where
+import Data.List.Split
 
 -- Returns index or -1 if element cannot be found, assumes sorted input
 binSearch :: (Ord a, Num a) => [a] -> a -> Int
@@ -16,6 +17,10 @@ binSearchH xs y i  | x == y = i
 -- Parses lines in the file to the desired type (type may have to be hinted with ::)
 parseLinesToType :: Read a => String -> [a]
 parseLinesToType text = map read $ lines text
+
+parseNumLine :: String -> [Int]
+parseNumLine s = map read $ splitOn "," s
+
 
 -- Runs the computationFn on an input file and prints the results
 -- Arguments:
