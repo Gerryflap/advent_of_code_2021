@@ -21,8 +21,7 @@ computeFuel pos crabs = sum $ map (\x -> abs (x-pos)) crabs
 computeFuel2 :: Int -> [Int] -> Int
 computeFuel2 pos crabs = sum $ map (\x -> f $ abs (x-pos)) crabs
                         where
-                           f 0 = 0
-                           f x = x + (f (x-1))
+                           f x =(x * (x+1)) `div` 2
 
 -- Given starting pos x, the previous minimum, the step/delta function and an input list,
 --    keeps applying delta to x and computing the part 2 fuel until the fuel consumption goes up again, then returns
