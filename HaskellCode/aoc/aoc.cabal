@@ -35,6 +35,7 @@ library
       Day09
       Preparation
       PreviousYear
+      SimulatedAnnealing
       Util
   other-modules:
       Paths_aoc
@@ -45,6 +46,7 @@ library
     , containers
     , matrix
     , primitive
+    , random
     , split
     , vector
   default-language: Haskell2010
@@ -62,6 +64,7 @@ executable aoc-exe
     , containers
     , matrix
     , primitive
+    , random
     , split
     , vector
   default-language: Haskell2010

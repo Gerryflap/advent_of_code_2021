@@ -23,6 +23,7 @@ dependencies:
 - containers
 - primitive
 - matrix
+- random
 
 library:
   source-dirs: src
