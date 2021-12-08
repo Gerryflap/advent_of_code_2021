@@ -37,6 +37,27 @@ addSimpleDigit m s  | md == Nothing = error $ "Could not parse simple digit " ++
                       md = getSimpleDigit s
                       d = fromJust md
 
+{-
+  The solution to finding the different 6 and 5 segment numbers, assuming we already have 1,4,7,8:
+  Let's say we already have 7, and it's of the form:
+
+   dddd
+  .    b
+  .    b
+   ....
+  .    a
+  .    a
+   ....
+
+This is represented as the set {a, b, d}.
+Let's say we get the set {a,c,d,e,f,g}
+Since {a,b,d} are not all 3 in there, it can only be 6,
+  the other 6-digit numbers (9 and 0) do completely overlap on all 3 segments of 7.
+We can test this using the set of characters. The size of {a,c,d,e,f,g} - {a, b, d} = size of {c,e,f,g} = 4
+For both other numbers this will be 3, since 'b' will also be in their set.
+
+For the other numbers the same strategy is used, but using different "mask" numbers than 7
+-}
 -- Assumed to be called AFTER addSimpleDigit
 add6Digit :: Map Int (Set Char) -> Set Char -> Map Int (Set Char)
 add6Digit m s | size (s \\ seven) == 4 = M.insert 6 s m
