@@ -22,6 +22,9 @@ parseNumLine :: String -> [Int]
 parseNumLine s = map read $ splitOn "," s
 
 
+flatten :: [[a]] -> [a]
+flatten = foldl1 (++)
+
 -- Runs the computationFn on an input file and prints the results
 -- Arguments:
 --  computationFn: gets input type a and returns b
