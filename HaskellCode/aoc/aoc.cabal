@@ -6,7 +6,7 @@ cabal-version: 1.12
 
 name:           aoc
 version:        4.20
-description:    Please see the README on GitHub at <https://github.com/githubuser/aoc#readme>
+description:    Please see the README on GitHub at <https://github.com/Gerryflap/advent_of_code_2021#readme>
 homepage:       https://github.com/github.com/Gerryflap#readme
 bug-reports:    https://github.com/github.com/Gerryflap/issues
 author:         Gerben Meijer
