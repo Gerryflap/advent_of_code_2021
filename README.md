@@ -10,8 +10,8 @@ Running stuff:
 - Install [Stack](https://docs.haskellstack.org/en/stable/README/)
 - Go to the `HaskellCode/aoc/` folder and run `stack build`
 - Open ghci using `stack ghci`, this will open an interactive session with everything loaded
-- Call whatever function you want to test, i.e. `fib` 
-  (WARNING: it's not recommended running `fib` in an IntelliJ terminal unless you like stuff breaking)
+- Call whatever function you want to test, i.e. `answerD11Q1` (for day 11 question 1). 
+Currently, every day should have 2 functions like this. For instance, running day 1 question 2 -> `answerD1Q2`
 
 ## Julia
 - Install [Julia](https://julialang.org/) (duh)
