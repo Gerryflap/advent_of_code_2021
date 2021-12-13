@@ -35,6 +35,12 @@ runOnFile computationFn parser path = do
     contents <- readFile path
     putStrLn $ show $ computationFn $ parser contents
 
+-- Runs the computationFn on an input file and let's the computationFn do the printing
+runOnFileIO :: (a -> IO ()) -> (String -> a) -> String -> IO ()
+runOnFileIO computationFn parser path = do
+    contents <- readFile path
+    computationFn $ parser contents
+
 -- Computes the new counter value for a counter in a map
 newCountVal :: Maybe Int -> Int
 newCountVal Nothing = 1               -- Key not in map, set counter to 1
