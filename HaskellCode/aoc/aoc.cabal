@@ -39,6 +39,7 @@ library
       Day12
       Day13
       Day14
+      Day15
       Preparation
       PreviousYear
       SimulatedAnnealing
@@ -51,6 +52,7 @@ library
       base >=4.7 && <5
     , containers
     , matrix
+    , pqueue
     , primitive
     , random
     , split
@@ -69,6 +71,7 @@ executable aoc-exe
     , base >=4.7 && <5
     , containers
     , matrix
+    , pqueue
     , primitive
     , random
     , split

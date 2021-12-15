@@ -24,6 +24,7 @@ dependencies:
 - primitive
 - matrix
 - random
+- pqueue
 
 library:
   source-dirs: src
